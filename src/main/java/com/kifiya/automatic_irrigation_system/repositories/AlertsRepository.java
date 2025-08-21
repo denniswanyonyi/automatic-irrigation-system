@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface AlertsRepository extends CrudRepository<Alerts, Long> {
 
+    List<Alerts> findAllByOrderByIdDesc();
 }

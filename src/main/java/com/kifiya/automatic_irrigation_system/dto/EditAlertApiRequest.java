@@ -1,8 +1,8 @@
 package com.kifiya.automatic_irrigation_system.dto;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -11,9 +11,8 @@ import lombok.*;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
-public class EditLandApiRequest extends ApiRequest {
+public class EditAlertApiRequest extends ApiRequest{
 
-    @NotNull
-    @JsonProperty("LandInfo")
-    private LandInfo landInfo;
+    @JsonProperty("AlertInfo")
+    private AlertsInfo alertsInfo;
 }

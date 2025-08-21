@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kifiya.automatic_irrigation_system.dao.Land;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -16,6 +13,7 @@ import java.time.LocalTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class LandInfo {
 
     @JsonProperty("LandID")
@@ -42,6 +40,9 @@ public class LandInfo {
 
     @JsonProperty("Status")
     private Land.LandStatus status;
+
+    @JsonProperty("IrrigationStatus")
+    private Land.IrrigationStatus irrigationStatus;
 
     @JsonProperty("DateAdded")
     private LocalDateTime dateAdded;

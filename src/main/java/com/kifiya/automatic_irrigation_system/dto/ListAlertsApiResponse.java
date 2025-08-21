@@ -10,8 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ListPlotsApiResponse extends ApiResponse {
+public class ListAlertsApiResponse extends ApiResponse {
 
-    @JsonProperty("LandInfo")
-    private List<LandInfo> landInfo;
+    @JsonProperty("AlertsInfo")
+    public List<AlertsInfo> alertsInfo;
 }

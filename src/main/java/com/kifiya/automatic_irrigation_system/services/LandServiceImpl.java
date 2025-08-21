@@ -40,10 +40,18 @@ public class LandServiceImpl implements LandService{
 
         logger.info("Started initializing crop mapping from database");
 
-        Iterable<CropMapping> cropMappingIterable = cropMappingRepository.findAll();
+        try {
+            Iterable<CropMapping> cropMappingIterable = cropMappingRepository.findAll();
 
-        for(CropMapping mapping : cropMappingIterable)
-            cropMappingMap.put(mapping.getCrop().toLowerCase(), mapping.getAmountOfWater());
+            for (CropMapping mapping : cropMappingIterable)
+                cropMappingMap.put(mapping.getCrop().toLowerCase(), mapping.getAmountOfWater());
+
+            logger.info("Finished crop mapping from database");
+        }
+
+        catch(Exception e) {
+            logger.error("An error occurred while initializing crop mapping, details: {}", e.getMessage(), e);
+        }
     }
 
     @Override
@@ -52,6 +60,7 @@ public class LandServiceImpl implements LandService{
         logger.info("Started processing list all plots request");
 
         ListPlotsApiResponse apiResponse = new ListPlotsApiResponse();
+        apiResponse.setResponseParameters(new ArrayList<>());
         apiResponse.setRequestRefID(requestRefID == null ? UUID.randomUUID().toString() : requestRefID);
 
 
@@ -60,15 +69,24 @@ public class LandServiceImpl implements LandService{
 
             apiResponse.setLandInfo(new ArrayList<>());
 
+            int count = 0;
             for (Land land : plots) {
-                apiResponse.getLandInfo().add(new LandInfo(land.getId(), land.getLength(), land.getWidth(), land.getArea(),
-                        land.getCrop(), land.getAmountOfWater(), land.getStatus(), land.getDateAdded(), land.getLastIrrigated(), land.getScheduledIrrigationTime()));
+                count++;
+                apiResponse.getLandInfo().add(new LandInfo(land.getId(), land.getLength(), land.getWidth(), land.getLength() * land.getWidth(),
+                        land.getCrop(), land.getAmountOfWater(), land.getStatus(), land.getIrrigationStatus(),
+                        land.getDateAdded(), land.getLastIrrigated(), land.getScheduledIrrigationTime()));
             }
+
+            apiResponse.getResponseParameters().add(new Parameter("DetailedMessage", "Successfully retrieved info for "+ count +" plot(s) of land"));
 
             apiResponse.setResponseCode("0");
             apiResponse.setResponseDescription("Successfully retrieved details of all plots of land.");
+
+            logger.info("Finished processing list all plots request");
         }
         catch(Exception e) {
+
+            logger.error("An error occurred while listing all plots", e);
 
             apiResponse.setResponseCode("500");
             apiResponse.setResponseDescription("An exception occurred while retrieving the plots of land");
@@ -81,6 +99,8 @@ public class LandServiceImpl implements LandService{
     @Override
     public ApiResponse configureLand(@NotNull Long id, EditLandApiRequest apiRequest) {
 
+        logger.info("Received request to configure land, land ID is {} and info is: {}", id, apiRequest.toString());
+
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setResponseParameters(new ArrayList<>());
         apiResponse.setRequestRefID(apiRequest.getRequestRefID());
@@ -88,6 +108,9 @@ public class LandServiceImpl implements LandService{
         Optional<Land> land = landRepository.findById(id);
 
         if(land.isEmpty()) {
+
+            logger.info("No land found with ID: {}", id);
+
             apiResponse.setResponseDescription("Land not found");
             apiResponse.setResponseCode("404");
 
@@ -108,8 +131,12 @@ public class LandServiceImpl implements LandService{
 
             apiResponse.setResponseDescription("Successfully configured the land information");
             apiResponse.setResponseCode("0");
+
+            logger.info("Successfully processed configuration request for land found with ID: {}", id);
         }
         catch (Exception e) {
+            logger.error("Error occurred processing configuration request for land found with ID: {}", id, e);
+
             apiResponse.setResponseDescription("An error occurred while configuring the land info");
             apiResponse.setResponseCode("500");
 
@@ -122,14 +149,19 @@ public class LandServiceImpl implements LandService{
     @Override
     public ApiResponse editLand(@NotNull Long id, @NotNull EditLandApiRequest apiRequest) {
 
+        logger.info("Received request to edit land info, land ID is {} and info is: {}", id, apiRequest.toString());
+
         ApiResponse response = new ApiResponse();
         response.setRequestRefID(apiRequest.getRequestRefID());
 
         Optional<Land> land = landRepository.findById(id);
 
         if(land.isEmpty()) {
+            logger.info("Land with ID {} does not exist", id);
+
             response.setResponseDescription("Land not found");
             response.setResponseCode("404");
+
         }
         else {
 
@@ -153,8 +185,12 @@ public class LandServiceImpl implements LandService{
 
                 response.setResponseDescription("Successfully updated the land information");
                 response.setResponseCode("0");
+
+                logger.info("Successfully edited land info for land with ID: {}", id);
             }
             catch(Exception e) {
+                logger.error("An error occured while processing the edit land info request for land with ID: {}", id, e);
+
                 response.setResponseDescription("An error occurred while updating the land information");
                 response.setResponseCode("500");
             }
@@ -166,6 +202,8 @@ public class LandServiceImpl implements LandService{
     @Override
     public ApiResponse saveLand(AddLandApiRequest apiRequest)
     {
+        logger.info("Received request to add land, the land info is: {}", apiRequest.toString());
+
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setRequestRefID(apiRequest.getRequestRefID());
 
@@ -185,8 +223,10 @@ public class LandServiceImpl implements LandService{
 
             Land land = new Land(
                     apiRequest.getLandInfo().getLength(), apiRequest.getLandInfo().getWidth(), area, apiRequest.getLandInfo().getCrop(),
-                    amountOfWater, Land.LandStatus.ACTIVE, LocalDateTime.now(), null
+                    amountOfWater, Land.LandStatus.ACTIVE,LocalDateTime.now(), null
             );
+
+            logger.info("Proceeding to add new land after populating all info, the land info is: {}", land.toString());
 
             landRepository.save(land);
 
@@ -194,8 +234,13 @@ public class LandServiceImpl implements LandService{
 
             apiResponse.setResponseCode("0");
             apiResponse.setResponseDescription("Successfully added new land");
+
+            logger.info("Successfully added new land, allocating irrigation time slot asynchronously");
         }
         catch(Exception e) {
+
+            logger.error("Error while adding new land, detailed message is: {}", e.getMessage(), e);
+
             apiResponse.setResponseCode("0");
             apiResponse.setResponseDescription("An error occurred while attempting to add new land, please try again later.");
         }

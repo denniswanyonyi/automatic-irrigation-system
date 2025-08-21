@@ -1,0 +1,123 @@
+{
+	"info": {
+		"_postman_id": "4aaafdde-59d9-4524-a10d-aa8bfa8e7bb2",
+		"name": "Automatic Irrigation System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "869158",
+		"_collection_link": "https://red-space-106984.postman.co/workspace/My-Workspace~570f083a-c714-401e-808d-22db9de8db5e/collection/869158-4aaafdde-59d9-4524-a10d-aa8bfa8e7bb2?action=share&source=collection_link&creator=869158"
+	},
+	"item": [
+		{
+			"name": "List Plots of Land",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "RequestRefID",
+						"value": "Kifiya-{{$guid}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:18423/land",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "18423",
+					"path": [
+						"land"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add New Plot of Land",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"RequestRefID\": \"Kifiya-{{$guid}}\",\n    \"OperationName\": \"AddLand\",\n    \"Timestamp\": \"2022-07-03T11:03:19.111+03:00\",\n    \"SourceSystem\": \"USSD\",\n    \"ReferenceData\": [\n        {\n            \"Key\": \"AppVersion\",\n            \"Value\": \"v0.2\"\n        }\n    ],\n    \"LandInfo\": {\n        \"Length\": 120,\n        \"Width\": 2500,\n        \"Crop\": \"Wheat\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:18423/land",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "18423",
+					"path": [
+						"land"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit New Plot of Land",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"RequestRefID\": \"Kifiya-{{$guid}}\",\n    \"OperationName\": \"EditLand\",\n    \"Timestamp\": \"2022-07-03T11:03:19.111+03:00\",\n    \"SourceSystem\": \"USSD\",\n    \"ReferenceData\": [\n        {\n            \"Key\": \"AppVersion\",\n            \"Value\": \"v0.2\"\n        }\n    ],\n    \"LandInfo\": {\n        \"Length\": 200000,\n        \"Width\": 150000,\n        \"Crop\": \"Coffee\",\n        \"Status\": \"SUSPENDED\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:18423/land/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "18423",
+					"path": [
+						"land",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Configure New Plot of Land",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"RequestRefID\": \"Kifiya-{{$guid}}\",\n    \"OperationName\": \"ConfigureLand\",\n    \"Timestamp\": \"2022-07-03T11:03:19.111+03:00\",\n    \"SourceSystem\": \"USSD\",\n    \"ReferenceData\": [\n        {\n            \"Key\": \"AppVersion\",\n            \"Value\": \"v0.2\"\n        }\n    ],\n    \"LandInfo\": {\n        \"AmountOfWater\": 123456,\n        \"ScheduledIrrigationTime\": \"07:13:07\",\n        \"Crop\": \"Barley\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:18423/land/configure/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "18423",
+					"path": [
+						"land",
+						"configure",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
