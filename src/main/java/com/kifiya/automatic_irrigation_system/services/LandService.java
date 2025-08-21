@@ -1,16 +1,15 @@
 package com.kifiya.automatic_irrigation_system.services;
 
 import com.kifiya.automatic_irrigation_system.dao.Land;
-import com.kifiya.automatic_irrigation_system.dto.AddLandApiRequest;
-import com.kifiya.automatic_irrigation_system.dto.ApiResponse;
-import com.kifiya.automatic_irrigation_system.dto.ListPlotsApiResponse;
+import com.kifiya.automatic_irrigation_system.dto.*;
+import jakarta.validation.constraints.NotNull;
 
 
 public interface LandService {
 
-//    Land configureLand(Long id);
-//    Land editLand(Long id);
+    ApiResponse configureLand(Long id, EditLandApiRequest apiRequest);
+    ApiResponse editLand(Long id, EditLandApiRequest apiRequest);
     ApiResponse saveLand(AddLandApiRequest apiRequest);
 
-    ListPlotsApiResponse listAllPlots();
+    ListPlotsApiResponse listAllPlots(String requestRefID);
 }

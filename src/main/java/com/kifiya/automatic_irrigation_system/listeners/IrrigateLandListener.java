@@ -41,8 +41,9 @@ public class IrrigateLandListener  implements ApplicationListener<IrrigateLandEv
         LandInfo landInfo = new LandInfo(irrigateLandEvent.getLand().getId(),
                 irrigateLandEvent.getLand().getLength(), irrigateLandEvent.getLand().getWidth(),
                 irrigateLandEvent.getLand().getArea(), irrigateLandEvent.getLand().getCrop(),
-                irrigateLandEvent.getLand().getStatus(), irrigateLandEvent.getLand().getDateAdded(),
-                irrigateLandEvent.getLand().getLastIrrigated(), irrigateLandEvent.getLand().getScheduledIrrigationTime());
+                irrigateLandEvent.getLand().getAmountOfWater(), irrigateLandEvent.getLand().getStatus(),
+                irrigateLandEvent.getLand().getDateAdded(), irrigateLandEvent.getLand().getLastIrrigated(),
+                irrigateLandEvent.getLand().getScheduledIrrigationTime());
 
 
         ResponseEntity<ApiResponse> responseEntity = null;

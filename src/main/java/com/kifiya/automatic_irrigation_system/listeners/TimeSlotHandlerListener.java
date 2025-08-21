@@ -44,8 +44,8 @@ public class TimeSlotHandlerListener implements ApplicationListener<AllocateTime
             irrigationStartHour = 6;
         }
 
-        if(irrigationPeriodInHours < 1 || irrigationPeriodInHours > 24) {
-            irrigationPeriodInHours = 5;
+        if(irrigationPeriodInHours < 0.5 || irrigationPeriodInHours > 24) {
+            irrigationPeriodInHours = 1;
         }
     }
 

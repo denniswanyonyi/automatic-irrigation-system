@@ -24,12 +24,13 @@ public class Land {
     private long width;
     private long area;
     private String crop;
+    private int amountOfWater;
     private LandStatus status;
     private LocalDateTime dateAdded;
     private LocalDateTime lastIrrigated;
     private LocalTime scheduledIrrigationTime;
 
-    public Land(long length, long width, long area, String crop, LandStatus status, LocalDateTime dateAdded, LocalDateTime lastIrrigated) {
+    public Land(long length, long width, long area, String crop, int amountOfWater, LandStatus status, LocalDateTime dateAdded, LocalDateTime lastIrrigated) {
         this.dateAdded = dateAdded;
         this.lastIrrigated = lastIrrigated;
         this.length = length;
@@ -37,6 +38,17 @@ public class Land {
         this.crop = crop;
         this.width = width;
         this.area = area;
+        this.amountOfWater = amountOfWater;
+    }
+
+    public Land(long length, long width, String crop, int amountOfWater, LandStatus status, LocalDateTime dateAdded, LocalTime scheduledIrrigationTime) {
+        this.dateAdded = dateAdded;
+        this.scheduledIrrigationTime = scheduledIrrigationTime;
+        this.length = length;
+        this.status = status;
+        this.crop = crop;
+        this.width = width;
+        this.amountOfWater = amountOfWater;
     }
 
     public enum LandStatus {

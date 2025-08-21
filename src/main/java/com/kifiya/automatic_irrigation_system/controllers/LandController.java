@@ -1,8 +1,6 @@
 package com.kifiya.automatic_irrigation_system.controllers;
 
-import com.kifiya.automatic_irrigation_system.dto.AddLandApiRequest;
-import com.kifiya.automatic_irrigation_system.dto.ApiResponse;
-import com.kifiya.automatic_irrigation_system.dto.ListPlotsApiResponse;
+import com.kifiya.automatic_irrigation_system.dto.*;
 import com.kifiya.automatic_irrigation_system.services.LandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +13,9 @@ public class LandController {
     LandService landService;
 
     @GetMapping
-    public ListPlotsApiResponse ListPlots()
+    public ListPlotsApiResponse ListPlots(@RequestHeader(required = false, name="RequestRefID") String requestRefID)
     {
-        return landService.listAllPlots();
+        return landService.listAllPlots(requestRefID);
     }
 
     @PostMapping
@@ -26,15 +24,15 @@ public class LandController {
         return landService.saveLand(apiRequest);
     }
 
-    @PutMapping("/configure")
-    public void configureLand()
+    @PutMapping("/configure/{id}")
+    public ApiResponse configureLand(@PathVariable("id") Long id, @RequestBody EditLandApiRequest apiRequest)
     {
-
+        return landService.configureLand(id, apiRequest);
     }
 
-    @PutMapping("")
-    public void editLand()
+    @PutMapping("/{id}")
+    public ApiResponse editLand(@RequestBody EditLandApiRequest apiRequest, @PathVariable("id") Long id)
     {
-
+        return landService.editLand(id, apiRequest);
     }
 }

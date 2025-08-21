@@ -16,9 +16,17 @@ public class CropMapping {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id")
     private Long id;
 
+    @Column(name="crop")
     private String crop;
 
+    @Column(name="amount_of_water")
     private int amountOfWater;
+
+    public CropMapping(int amountOfWater, String crop) {
+        this.amountOfWater = amountOfWater;
+        this.crop = crop;
+    }
 }

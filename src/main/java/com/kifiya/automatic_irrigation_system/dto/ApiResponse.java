@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -22,6 +24,6 @@ public class ApiResponse {
     private String responseDescription;
 
     @JsonProperty("ResponseParameters")
-    private Parameter responseParameters;
+    private List<Parameter> responseParameters;
 
 }
