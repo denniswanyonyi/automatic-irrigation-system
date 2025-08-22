@@ -84,7 +84,8 @@ public class IrrigateLandListener  implements ApplicationListener<IrrigateLandEv
 
                 // Save this as we will need to issue an alert
                 alertsRepository.save(new Alerts(
-                        LocalDateTime.now(), "Exceeded max retries notifying sensor", null, "Max Retry Exceeded"
+                        LocalDateTime.now(), "Exceeded max retries notifying sensor to trigger automatic irrigation", null,
+                        "Max Retry Exceeded for Land ID: " + irrigateLandEvent.getLand().getId() + " for Crop: " + irrigateLandEvent.getLand().getCrop()
                 ));
 
                 logger.error("Maximum retries exceeded when notifying sensor to irrigate: {}", landInfo.toString());

@@ -16,16 +16,16 @@ public class CropMappingTestData {
     public void init() {
 
         try {
+            cropMappingRepository.save(new CropMapping(1000,"Teff"));
+            cropMappingRepository.save(new CropMapping(450,"Coffee"));
+            cropMappingRepository.save(new CropMapping(450,"Tea"));
             cropMappingRepository.save(new CropMapping(100,"Maize"));
             cropMappingRepository.save(new CropMapping(50,"Cassava"));
             cropMappingRepository.save(new CropMapping(500,"Barley"));
             cropMappingRepository.save(new CropMapping(750,"Wheat"));
             cropMappingRepository.save(new CropMapping(50,"Yam"));
-            cropMappingRepository.save(new CropMapping(450,"Coffee"));
-            cropMappingRepository.save(new CropMapping(450,"Tea"));
             cropMappingRepository.save(new CropMapping(100,"Beans"));
             cropMappingRepository.save(new CropMapping(250,"Cocoa"));
-            cropMappingRepository.save(new CropMapping(1000,"Sunflower"));
 
             System.out.println("Finished initializing");
         }

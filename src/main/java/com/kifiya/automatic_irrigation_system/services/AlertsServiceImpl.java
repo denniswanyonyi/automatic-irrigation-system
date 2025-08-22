@@ -36,7 +36,7 @@ public class AlertsServiceImpl implements AlertsService {
 
 
         try {
-            List<Alerts> alerts = alertsRepository.findAllByOrderByIdDesc();
+            List<Alerts> alerts = alertsRepository.findAllByIsReadOrderByIdDesc(false);
 
             logger.info("{} alerts retrieved", alerts.size());
 
